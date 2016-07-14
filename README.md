@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/pageseeder/maven/berlioz-plus/images/download.svg) ](https://bintray.com/pageseeder/maven/berlioz-plus/_latestVersion)
+
 # berlioz-plus
 
 Java 8 annotations and extensions for Berlioz.
