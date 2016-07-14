@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.pageseeder.berlioz</groupId>
   <artifactId>pso-berlioz-plus</artifactId>
-  <version>0.5.0</version>
+  <version>0.5.1-SNAPSHOT</version>
   <name>Berlioz Plus</name>
   <description>Java 8 Berlioz annotations and extensions</description>
 
