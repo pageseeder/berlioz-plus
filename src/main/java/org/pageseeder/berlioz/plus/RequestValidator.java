@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 
+import org.eclipse.jdt.annotation.NonNull;
 import org.pageseeder.berlioz.content.ContentRequest;
 import org.pageseeder.berlioz.content.ContentStatus;
 import org.pageseeder.berlioz.plus.constraints.Constraint;
@@ -17,6 +18,8 @@ import org.pageseeder.berlioz.plus.constraints.EmailParameterConstraint;
 import org.pageseeder.berlioz.plus.constraints.ParameterContraint;
 import org.pageseeder.berlioz.plus.constraints.RequiredParameterConstraint;
 import org.pageseeder.berlioz.plus.spi.AnnotationProcessor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simplifies the checking of parameters for content generators.
@@ -30,6 +33,9 @@ import org.pageseeder.berlioz.plus.spi.AnnotationProcessor;
  * @author Christophe Lauret
  */
 public final class RequestValidator {
+
+  /** Logger for the request validator */
+  private final static Logger LOGGER = LoggerFactory.getLogger(RequestValidator.class);
 
   /** List of constraints to obey */
   private final List<Constraint> _constraints = new ArrayList<>(4);
@@ -74,6 +80,19 @@ public final class RequestValidator {
    */
   public static RequestValidator create() {
     return new RequestValidator();
+  }
+
+  /**
+   *
+   */
+  public static RequestValidator create(Class<? extends Generator> clazz) {
+    LOGGER.debug("Building validator for {}", clazz.getName());
+    RequestValidator validator = new RequestValidator();
+    @NonNull Annotation[] annotations = clazz.getAnnotations();
+    for(Annotation annotation : annotations) {
+      validator.addOptionalConstraint(annotation);
+    }
+    return validator;
   }
 
   /**
@@ -168,16 +187,21 @@ public final class RequestValidator {
   }
 
   public RequestValidator update(Annotation annotation) {
+    addOptionalConstraint(annotation);
+    return this;
+  }
+
+  private void addOptionalConstraint(Annotation annotation) {
     ServiceLoader<AnnotationProcessor> loader = ServiceLoader.load(AnnotationProcessor.class);
     Iterator<AnnotationProcessor> it = loader.iterator();
     while (it.hasNext()) {
       AnnotationProcessor processor = it.next();
+      LOGGER.debug(processor.getClass()+"/"+annotation.toString()+"->"+processor.accepts(annotation));
       if (processor.accepts(annotation)) {
         Constraint constraint = processor.getConstraint(annotation);
         this._constraints.add(constraint);
       }
     }
-    return this;
   }
 
 }

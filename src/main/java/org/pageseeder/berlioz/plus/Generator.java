@@ -4,7 +4,6 @@
 package org.pageseeder.berlioz.plus;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 
 import org.pageseeder.berlioz.BerliozException;
 import org.pageseeder.berlioz.content.ContentGenerator;
@@ -34,7 +33,7 @@ public abstract class Generator<R extends ValidatedRequest> implements ContentGe
    * Construct a new instance.
    */
   public Generator(RequestFactory<R> factory) {
-    this._validator = buildValidator();
+    this._validator = RequestValidator.create(this.getClass());
     this._factory = factory;
   }
 
@@ -80,25 +79,5 @@ public abstract class Generator<R extends ValidatedRequest> implements ContentGe
    * @throws RequestException If an error occurred processing the request.
    */
   public abstract ContentStatus generate(R req, XMLPrinter xml);
-
-  /**
-   * Build the validator from the annotations
-   *
-   * @return The validator for the request.
-   */
-  private RequestValidator buildValidator() {
-    RequestValidator validator = RequestValidator.create();
-
-    // Process annotations
-    @SuppressWarnings("rawtypes")
-    Class<? extends Generator> aClass = this.getClass();
-    Annotation[] annotations = aClass.getAnnotations();
-    for(Annotation annotation : annotations) {
-      if (annotation != null) {
-        validator = validator.update(annotation);
-      }
-    }
-    return validator;
-  }
 
 }
