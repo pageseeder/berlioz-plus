@@ -2,6 +2,10 @@
 
 Java 8 annotations and extensions for Berlioz.
 
+The purpose of Berlioz plus is to help developer remove boilerplate code 
+dealing with bad requests and improve the security of the application  by
+encouraging and centralizing the validation of user input strings.
+
 ## `Generator` base class
 
 Berlioz Plus provides a `ContentGenerator` abstract implementation to use as 
