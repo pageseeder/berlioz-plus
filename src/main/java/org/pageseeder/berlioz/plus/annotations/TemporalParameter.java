@@ -3,6 +3,7 @@
  */
 package org.pageseeder.berlioz.plus.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
@@ -17,6 +18,7 @@ import java.time.temporal.Temporal;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Repeatable(TemporalParameters.class)
+@Documented
 public @interface TemporalParameter {
 
   /**
