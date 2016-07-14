@@ -183,8 +183,8 @@
           </links>
           <javaApiLinks>
             <property>
-              <name>api_1.7</name>
-              <value>http://download.java.net/jdk7/docs/api/</value>
+              <name>api_1.8</name>
+              <value>http://download.java.net/jdk8/docs/api/</value>
             </property>
           </javaApiLinks>
         </configuration>
