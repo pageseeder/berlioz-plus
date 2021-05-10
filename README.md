@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/pageseeder/maven/berlioz-plus/images/download.svg) ](https://bintray.com/pageseeder/maven/berlioz-plus/_latestVersion)
+[![Maven Central](https://img.shields.io/maven-central/v/org.pageseeder.berlioz/pso-berlioz-plus.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.pageseeder.berlioz%22%20AND%20a:%22pso-berlioz-plus%22)
 
 # berlioz-plus
 
