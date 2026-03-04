@@ -4,19 +4,20 @@ import org.pageseeder.berlioz.content.ContentRequest;
 import org.pageseeder.berlioz.plus.ValidatedRequest;
 
 /**
- * An annotation processor must provide a constraint implementation
- * for a generator based on an annotation.
+ * Factory for creating validated requests based on content requests.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public interface RequestFactory<R extends ValidatedRequest> {
 
   /**
-   * Returns the request constraint corresponding to the specified annotation.
+   * Generates a validated request from the provided content request.
    *
-   * @param annotation to process
-   *
-   * @return a constraint of <code>null</code>.
+   * @param request The content request to be transformed into a validated request.
+   * @return A validated request derived from the given content request.
    */
   R getRequest(ContentRequest request);
 

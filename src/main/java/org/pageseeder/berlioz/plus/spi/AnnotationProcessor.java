@@ -9,6 +9,9 @@ import org.pageseeder.berlioz.plus.constraints.Constraint;
  * for a generator based on an annotation.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public interface AnnotationProcessor {
 
