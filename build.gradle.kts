@@ -1,6 +1,7 @@
 plugins {
   id("java-library")
   id("maven-publish")
+  alias(libs.plugins.sonar)
   id("io.codearte.nexus-staging") version "0.30.0"
 }
 
@@ -50,7 +51,13 @@ dependencies {
   testImplementation(libs.bundles.junit)
   testRuntimeOnly(libs.junit.jupiter.engine)
   testRuntimeOnly(libs.slf4j.simple)
+}
 
+sonar {
+  properties {
+    property("sonar.projectKey", "pageseeder_berlioz_plus")
+    property("sonar.organization", "pageseeder")
+  }
 }
 
 tasks.wrapper {

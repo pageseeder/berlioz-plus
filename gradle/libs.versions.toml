@@ -23,3 +23,6 @@ junit = [
     "junit-platform-launcher",
     "junit-platform-engine"
 ]
+
+[plugins]
+sonar = { id = "org.sonarqube", version = "7.1.0.6387" }
