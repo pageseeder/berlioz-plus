@@ -46,8 +46,11 @@ dependencies {
     because("These is an optional dependencies for JSON output using implementations of JSR 374")
   }
 
-  testImplementation(libs.junit)
-  testImplementation(libs.slf4j.simple)
+  testImplementation(platform(libs.junit.bom))
+  testImplementation(libs.bundles.junit)
+  testRuntimeOnly(libs.junit.jupiter.engine)
+  testRuntimeOnly(libs.slf4j.simple)
+
 }
 
 tasks.wrapper {
