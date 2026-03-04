@@ -33,25 +33,25 @@ repositories {
 }
 
 dependencies {
-  api("org.pageseeder.berlioz:pso-berlioz:0.11.0")
-  api("org.pageseeder.xmlwriter:pso-xmlwriter:1.0.4")
+  api(libs.berlioz)
+  api(libs.xmlwriter)
 
-  implementation("org.slf4j:slf4j-api:2.0.17")
+  implementation(libs.slf4j.api)
 
-  compileOnly("javax.servlet:javax.servlet-api:3.1.0") {
+  compileOnly(libs.servlet.api) {
     because("This is provided by the Servlet container")
   }
 
-  compileOnly("javax.json:javax.json-api:1.0") {
+  compileOnly(libs.json.api) {
     because("These is an optional dependencies for JSON output using implementations of JSR 374")
   }
 
-  compileOnly("org.eclipse.jdt:org.eclipse.jdt.annotation:2.0.0") {
+  compileOnly(libs.annotations) {
     because("This used for Null safety and better interop with Kotlin")
   }
 
-  testImplementation("junit:junit:4.13.1")
-  testImplementation("org.slf4j:slf4j-simple:2.0.17")
+  testImplementation(libs.junit)
+  testImplementation(libs.slf4j.simple)
 }
 
 tasks.wrapper {
