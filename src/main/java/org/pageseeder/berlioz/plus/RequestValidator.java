@@ -83,7 +83,14 @@ public final class RequestValidator {
   }
 
   /**
+   * Creates a new {@code RequestValidator} instance using the annotations present on the specified class.
    *
+   * <p>This method dynamically processes all annotations of the provided class to generate optional constraints
+   * that are added to the returned {@code RequestValidator}.
+   *
+   * @param clazz The class from which annotations should be processed to configure the validator.
+   *              Must extend {@code Generator}.
+   * @return A new {@code RequestValidator} instance populated with constraints derived from the class annotations.
    */
   public static RequestValidator create(Class<? extends Generator> clazz) {
     LOGGER.debug("Building validator for {}", clazz.getName());
@@ -174,10 +181,10 @@ public final class RequestValidator {
     List<Constraint> constraintList = new ArrayList<>(this.constraints);
     Constraint constraint;
     try {
-      constraint = kindOfConstraint.newInstance();
+      constraint = kindOfConstraint.getDeclaredConstructor().newInstance();
       constraintList.add(constraint);
-    } catch (InstantiationException | IllegalAccessException ex) {
-      throw new IllegalArgumentException(ex);
+    } catch (ReflectiveOperationException ex) {
+      throw new IllegalArgumentException("Unable to instantiate constraint: " + kindOfConstraint.getName(), ex);
     }
     return new RequestValidator(constraintList);
   }
