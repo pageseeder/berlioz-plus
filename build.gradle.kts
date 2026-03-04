@@ -51,7 +51,7 @@ dependencies {
 
   testImplementation(platform(libs.junit.bom))
   testImplementation(libs.bundles.junit)
-  testCompileOnly(libs.servlet.api)
+  testImplementation(libs.servlet.api)
   testRuntimeOnly(libs.junit.jupiter.engine)
   testRuntimeOnly(libs.slf4j.simple)
 }
