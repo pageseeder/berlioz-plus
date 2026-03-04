@@ -3,7 +3,6 @@ junit = "4.13.1"
 slf4j = "2.0.17"
 
 [libraries]
-annotations = { module = "org.eclipse.jdt:org.eclipse.jdt.annotation", version = "2.0.0"}
 berlioz = { module = "org.pageseeder.berlioz:pso-berlioz", version = "0.11.0" }
 jspecify = { module = "org.jspecify:jspecify", version = "1.0.0" }
 json-api = { module = "javax.json:javax.json-api", version = "1.0"}

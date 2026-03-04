@@ -24,8 +24,6 @@ public interface Constraint {
    *
    * @return <code>true</code> if the request was considered valid;
    *         <code>false</code> otherwise in that case the generator should end.
-   *
-   * @throws IOException If an error occurs while writing the XML output.
    */
   ContentStatus validate(ContentRequest req, XMLPrinter xml);
 

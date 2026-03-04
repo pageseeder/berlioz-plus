@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import org.eclipse.jdt.annotation.NonNull;
 import org.pageseeder.berlioz.content.ContentRequest;
 import org.pageseeder.berlioz.content.ContentStatus;
 import org.pageseeder.berlioz.plus.constraints.Constraint;
@@ -88,8 +87,8 @@ public final class RequestValidator {
   public static RequestValidator create(Class<? extends Generator> clazz) {
     LOGGER.debug("Building validator for {}", clazz.getName());
     RequestValidator validator = new RequestValidator();
-    @NonNull Annotation[] annotations = clazz.getAnnotations();
-    for(Annotation annotation : annotations) {
+    Annotation[] annotations = clazz.getAnnotations();
+    for (Annotation annotation : annotations) {
       validator.addOptionalConstraint(annotation);
     }
     return validator;

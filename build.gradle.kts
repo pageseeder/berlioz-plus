@@ -33,10 +33,10 @@ repositories {
 }
 
 dependencies {
+  api(libs.jspecify)
   api(libs.berlioz)
   api(libs.xmlwriter)
-
-  implementation(libs.slf4j.api)
+  api(libs.slf4j.api)
 
   compileOnly(libs.servlet.api) {
     because("This is provided by the Servlet container")
@@ -44,10 +44,6 @@ dependencies {
 
   compileOnly(libs.json.api) {
     because("These is an optional dependencies for JSON output using implementations of JSR 374")
-  }
-
-  compileOnly(libs.annotations) {
-    because("This used for Null safety and better interop with Kotlin")
   }
 
   testImplementation(libs.junit)

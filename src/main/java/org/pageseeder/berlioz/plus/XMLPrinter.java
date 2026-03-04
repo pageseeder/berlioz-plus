@@ -5,7 +5,7 @@ package org.pageseeder.berlioz.plus;
 
 import java.io.IOException;
 
-import org.eclipse.jdt.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.berlioz.plus.exceptions.OutputException;
 import org.pageseeder.xmlwriter.XMLWritable;
 import org.pageseeder.xmlwriter.XMLWriter;
