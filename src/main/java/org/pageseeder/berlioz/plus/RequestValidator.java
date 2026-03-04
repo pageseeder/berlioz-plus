@@ -155,6 +155,9 @@ public final class RequestValidator {
   /**
    * Method to create a new validator that requires authentication.
    *
+   * @param name The name of the parameter to check.
+   * @param regex The regular expression to match.
+   *
    * @return This validator instance.
    */
   public RequestValidator matches(String name, String regex) {
@@ -165,6 +168,8 @@ public final class RequestValidator {
   /**
    * Method to create a new validator that checks that a specified parameter is a valid email address.
    *
+   * @param name The name of the parameter to check.
+   *
    * @return This validator instance.
    */
   public RequestValidator isEmail(String name) {
@@ -174,6 +179,8 @@ public final class RequestValidator {
 
   /**
    * Method to create a new validator that requires authentication.
+   *
+   * @param kindOfConstraint The type of constraint to add.
    *
    * @return A new request validator instance.
    */

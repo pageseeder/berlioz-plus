@@ -245,6 +245,7 @@ public class ValidatedRequest {
    * Return the specified Parameter as a long
    *
    * @param parameter The parameter name
+   * @param fallback  the fallback value
    *
    * @return the corresponding long
    *
