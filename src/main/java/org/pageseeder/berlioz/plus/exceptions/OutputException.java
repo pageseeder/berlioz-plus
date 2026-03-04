@@ -15,7 +15,7 @@ import org.pageseeder.berlioz.content.ContentStatus;
 public class OutputException extends RequestException {
 
   /** As per requirement for Serializable */
-  private static final long serialVersionUID = 20160713L;
+  private static final long serialVersionUID = 2026_03_04L;
 
   /**
    * @param message

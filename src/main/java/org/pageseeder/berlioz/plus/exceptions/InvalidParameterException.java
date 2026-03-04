@@ -8,11 +8,16 @@ import org.pageseeder.berlioz.plus.RequestParameter;
 
 /**
  * Exception thrown when a parameter is either missing or invalid.
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public final class InvalidParameterException extends RequestException {
 
   /** As per requirement for Serializable. */
-  private static final long serialVersionUID = 20160710L;
+  private static final long serialVersionUID = 2026_03_04L;
 
   /**
    * The name of the invalid parameter.

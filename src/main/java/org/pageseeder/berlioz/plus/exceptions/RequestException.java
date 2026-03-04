@@ -10,16 +10,21 @@ import org.pageseeder.berlioz.content.ContentStatus;
 /**
  * Class of exception caused by bad requests such as missing or illegal
  * parameters.
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public class RequestException extends RuntimeException {
 
   /** As per requirement for Serializable. */
-  private static final long serialVersionUID = 20160710L;
+  private static final long serialVersionUID = 2026_03_04L;
 
   /**
    * The content status to return if this exception is thrown.
    */
-  private final ContentStatus _status;
+  private final ContentStatus status;
 
   /**
    * Create a new request exception with the specified content status.
@@ -27,7 +32,7 @@ public class RequestException extends RuntimeException {
    * @param status the content to return if this exception is thrown
    */
   public RequestException(ContentStatus status) {
-    this._status = Objects.requireNonNull(status);
+    this.status = Objects.requireNonNull(status);
   }
 
   /**
@@ -38,36 +43,36 @@ public class RequestException extends RuntimeException {
    */
   public RequestException(ContentStatus status, String message) {
     super(message);
-    this._status = Objects.requireNonNull(status);
+    this.status = Objects.requireNonNull(status);
   }
 
   /**
    * Create a new request exception with the specified content status.
    *
    * @param status the content to return if this exception is thrown
-   * @param cause
+   * @param cause throwable that caused this exception
    */
   public RequestException(ContentStatus status, Throwable cause) {
     super(cause);
-    this._status = Objects.requireNonNull(status);
+    this.status = Objects.requireNonNull(status);
   }
 
   /**
    * Create a new request exception with the specified content status.
    *
    * @param status the content to return if this exception is thrown
-   * @param message
-   * @param cause
+   * @param message explanation for this exception
+   * @param cause throwable that caused this exception
    */
   public RequestException(ContentStatus status, String message, Throwable cause) {
     super(message, cause);
-    this._status = Objects.requireNonNull(status);
+    this.status = Objects.requireNonNull(status);
   }
 
   /**
    * @return the content to return if this exception is thrown
    */
   public ContentStatus status() {
-    return this._status;
+    return this.status;
   }
 }
