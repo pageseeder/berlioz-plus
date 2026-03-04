@@ -93,8 +93,8 @@ public final class LongParameterConstraint implements Constraint {
           xml.openElement("error");
           xml.attribute("type", "out-of-range");
           xml.attribute("parameter", this.name);
-          xml.attribute("min", Long.toString(this.min));
-          xml.attribute("max", Long.toString(this.max));
+          xml.attribute("min", this.min);
+          xml.attribute("max", this.max);
           xml.closeElement();
           status = ContentStatus.BAD_REQUEST;
         }
