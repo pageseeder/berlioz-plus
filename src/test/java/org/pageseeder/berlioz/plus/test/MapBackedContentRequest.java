@@ -94,4 +94,7 @@ public final class MapBackedContentRequest implements ContentRequest {
     this.status = code;
   }
 
+  public ContentStatus getStatus() {
+    return status;
+  }
 }
