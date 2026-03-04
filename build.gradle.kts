@@ -58,7 +58,7 @@ dependencies {
 
 sonar {
   properties {
-    property("sonar.projectKey", "pageseeder_berlioz_plus")
+    property("sonar.projectKey", "pageseeder_berlioz-plus")
     property("sonar.organization", "pageseeder")
   }
 }
