@@ -15,6 +15,11 @@ apply(from = "gradle/publish-mavencentral.gradle")
 java {
   sourceCompatibility = JavaVersion.VERSION_11
   targetCompatibility = JavaVersion.VERSION_11
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(11))
+  }
+  withJavadocJar()
+  withSourcesJar()
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -47,4 +52,15 @@ dependencies {
 
   testImplementation("junit:junit:4.12")
   testImplementation("org.slf4j:slf4j-simple:1.7.12")
+}
+
+tasks.wrapper {
+  gradleVersion = "8.13"
+  distributionType = Wrapper.DistributionType.BIN
+}
+
+tasks.withType<Javadoc> {
+  options {
+    encoding = "UTF-8"
+  }
 }
