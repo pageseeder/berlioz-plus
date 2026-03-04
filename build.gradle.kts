@@ -8,13 +8,10 @@ plugins {
 
 val title: String by project
 val gitName: String by project
-val website: String by project
 
 group = "org.pageseeder.berlioz"
 version = file("version.txt").readText().trim()
-
-// Groovy used "$title" (a project property). In Kotlin DSL, read it explicitly:
-description = findProperty("title")?.toString() ?: ""
+description = findProperty("description")?.toString() ?: ""
 
 java {
   sourceCompatibility = JavaVersion.VERSION_11
@@ -93,7 +90,6 @@ tasks.withType<Javadoc> {
   }
 }
 
-
 publishing {
   publications {
     create<MavenPublication>("maven") {
@@ -101,7 +97,7 @@ publishing {
       pom {
         name.set(title)
         description.set(project.description)
-        url.set(website)
+        url.set("https://github.com/pageseeder/${gitName}")
         licenses {
           license {
             name.set("The Apache Software License, Version 2.0")
@@ -121,6 +117,10 @@ publishing {
           developer {
             name.set("Christophe Lauret")
             email.set("clauret@weborganic.com")
+          }
+          developer {
+            name.set("Carlos Cabral")
+            email.set("ccabral@allette.com.au")
           }
         }
       }
