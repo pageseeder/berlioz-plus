@@ -20,7 +20,7 @@ import org.pageseeder.berlioz.plus.XMLPrinter;
  *
  * @author Christophe Lauret
  *
- * @since 0.5.0
+ * @since 0.6.0
  * @version 0.6.0
  */
 public final class ParameterConstraint implements Constraint {
