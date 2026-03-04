@@ -1,0 +1,42 @@
+[project]
+name = "berlioz-plus"
+description = "Java 8 Berlioz annotations and extensions"
+longDescription = """
+The purpose of Berlioz plus is to help developer remove boilerplate code
+dealing with bad requests and improve the security of the application  by
+encouraging and centralizing the validation of user input strings.
+"""
+tags = ["berlioz", "annotations", "java"]
+authors = ["Christophe Lauret"]
+license = "Apache-2.0"
+inceptionYear = "2020"
+vendor = "Allette Systems"
+
+# Organization info
+[project.links]
+homepage = "https://github.com/pageseeder/berlioz-plus"
+documentation = "https://github.com/pageseeder/berlioz-plus"
+license = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+
+# Java-specific configuration
+[project.languages.java]
+groupId = "org.pageseeder.berlioz"
+
+# Git configuration
+[release.github]
+owner = "pageseeder"
+name = "berlioz-plus"
+username = "pageseeder"
+branch = "main"
+
+# Signing configuration
+[signing]
+active = "ALWAYS"
+armored = true
+mode = "FILE"
+
+# Maven deployment configuration
+[deploy.maven.mavenCentral.sonatype]
+active = "ALWAYS"
+url = "https://central.sonatype.com/api/v1/publisher"
+stagingRepositories = ["build/staging-deploy"]
