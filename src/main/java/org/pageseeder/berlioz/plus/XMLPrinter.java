@@ -58,7 +58,7 @@ public final class XMLPrinter implements XMLWriter {
   }
 
   @Override
-  public void writeCDATA(@Nullable String data) {
+  public void writeCDATA(String data) {
     try{
       this.xml.writeCDATA(data);
     } catch (IOException ex) {
@@ -76,8 +76,8 @@ public final class XMLPrinter implements XMLWriter {
   }
 
   @Override
-  public void writeComment(@Nullable String comment) {
-    try{
+  public void writeComment(String comment) {
+    try {
       this.xml.writeComment(comment);
     } catch (IOException ex) {
       throw new OutputException(ex);
@@ -130,7 +130,7 @@ public final class XMLPrinter implements XMLWriter {
   }
 
   @Override
-  public void element(String name, @Nullable String text) {
+  public void element(String name, String text) {
     try{
       this.xml.element(name, text);
     } catch (IOException ex) {
@@ -175,6 +175,15 @@ public final class XMLPrinter implements XMLWriter {
   }
 
   @Override
+  public void attribute(String name, long value) {
+    try {
+      this.xml.attribute(name, value);
+    } catch (IOException ex) {
+      throw new OutputException(ex);
+    }
+  }
+
+  @Override
   public void attribute(String uri, String name, String value) {
     try {
       this.xml.attribute(uri, name, value);
@@ -193,12 +202,22 @@ public final class XMLPrinter implements XMLWriter {
   }
 
   @Override
+  public void attribute(String uri, String name, long value) {
+    try{
+      this.xml.attribute(uri, name, value);
+    } catch (IOException | IllegalStateException ex) {
+      throw new OutputException(ex);
+    }
+  }
+
+
+  @Override
   public void setPrefixMapping(String uri, String prefix) {
     this.xml.setPrefixMapping(uri, prefix);
   }
 
   @Override
-  public void xmlDecl() throws IOException {
+  public void xmlDecl() {
     try {
       this.xml.xmlDecl();
     } catch (IOException ex) {
@@ -212,7 +231,7 @@ public final class XMLPrinter implements XMLWriter {
   }
 
   @Override
-  public void flush() throws IOException {
+  public void flush() {
     try {
       this.xml.flush();
     } catch (IOException ex) {

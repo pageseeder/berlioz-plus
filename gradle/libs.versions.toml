@@ -15,7 +15,7 @@ junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", vers
 servlet-api = { module = "javax.servlet:javax.servlet-api", version = "3.1.0" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
-xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version = "1.0.4" }
+xmlwriter = { module = "org.pageseeder.xmlwriter:pso-xmlwriter", version = "1.1.1" }
 
 [bundles]
 junit = [
