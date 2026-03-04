@@ -36,6 +36,8 @@ public abstract class Generator<R extends ValidatedRequest> implements ContentGe
 
   /**
    * Construct a new instance.
+   *
+   * @param factory The factory to use to create the request.
    */
   protected Generator(RequestFactory<R> factory) {
     this.validator = RequestValidator.create(this.getClass());
