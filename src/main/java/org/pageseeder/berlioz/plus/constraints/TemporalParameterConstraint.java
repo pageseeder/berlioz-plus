@@ -5,9 +5,13 @@ package org.pageseeder.berlioz.plus.constraints;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.*;
 import java.time.temporal.Temporal;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
+import org.jspecify.annotations.Nullable;
 import org.pageseeder.berlioz.content.ContentRequest;
 import org.pageseeder.berlioz.content.ContentStatus;
 import org.pageseeder.berlioz.plus.XMLPrinter;
@@ -24,6 +28,12 @@ import org.pageseeder.berlioz.plus.XMLPrinter;
  * @version 0.6.0
  */
 public final class TemporalParameterConstraint implements Constraint {
+
+  /**
+   * Cache reflective parse methods to avoid repeated lookups.
+   * Value is {@code null} when the type has no suitable parse(CharSequence) method.
+   */
+  private static final ConcurrentMap<Class<? extends Temporal>, Method> PARSE_METHOD_CACHE = new ConcurrentHashMap<>();
 
   /**
    * Name of the parameter.
@@ -81,21 +91,100 @@ public final class TemporalParameterConstraint implements Constraint {
     }
   }
 
-  private static boolean isParsableAs(String value, Class<? extends Temporal> type) {
-    boolean parsable = false;
-    // TODO We could improve this for common types (LocalDate, etc...)
+  /**
+   * Determines if a given string value can be parsed into a specified type that implements
+   * the {@code Temporal} interface.
+   *
+   * @param value The string value to be checked for parsability; can be {@code null}.
+   * @param type  The {@code Class} object representing the type extending {@code Temporal}
+   *              to which the value is expected to be parsed; must not be {@code null}.
+   *
+   * @return {@code true} if the value can be successfully parsed as the specified temporal type;
+   *         {@code false} otherwise.
+   *
+   * @throws NullPointerException If the {@code type} parameter is {@code null}.
+   */
+  private static boolean isParsableAs(@Nullable String value, Class<? extends Temporal> type) {
+    if (value == null) return false;
+    Objects.requireNonNull(type, "Temporal type must not be null");
+
+    // Fast-path for common Java time types
+    // These avoid reflection and are generally the hottest cases.
     try {
-      Method m = type.getMethod("parse", CharSequence.class);
-      try {
-        m.invoke(new Object(), value);
-        parsable = true;
-      } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-        // not parsable
+      if (type == LocalDate.class) {
+        LocalDate.parse(value);
+        return true;
       }
-    } catch (NoSuchMethodException | SecurityException ex) {
-      throw new IllegalStateException();
+      if (type == LocalDateTime.class) {
+        LocalDateTime.parse(value);
+        return true;
+      }
+      if (type == LocalTime.class) {
+        LocalTime.parse(value);
+        return true;
+      }
+      if (type == OffsetDateTime.class) {
+        OffsetDateTime.parse(value);
+        return true;
+      }
+      if (type == OffsetTime.class) {
+        OffsetTime.parse(value);
+        return true;
+      }
+      if (type == ZonedDateTime.class) {
+        ZonedDateTime.parse(value);
+        return true;
+      }
+      if (type == Instant.class) {
+        Instant.parse(value);
+        return true;
+      }
+    } catch (RuntimeException ex) {
+      // Not parsable for this common type (e.g., DateTimeParseException)
+      return false;
     }
-    return parsable;
+
+    return isParsableAsOtherTemporal(value, type);
+  }
+
+  /**
+   * Checks if a given string value can be parsed into a specified type that implements the {@code Temporal} interface.
+   *
+   * @param value The string value to be checked for parsability; must not be null.
+   * @param type  The class type extending {@code Temporal} to which the value is expected to be parsed; must not be null.
+   *
+   * @return {@code true} if the value can be successfully parsed as the specified temporal type; {@code false} otherwise.
+   *
+   * @throws IllegalStateException If the specified type does not have a {@code parse(CharSequence)} method or if access
+   *                               to the method is not permitted.
+   */
+  private static boolean isParsableAsOtherTemporal(String value, Class<? extends Temporal> type) {
+    // Generic path: cached reflective lookup of static parse(CharSequence)
+    Method parse = PARSE_METHOD_CACHE.computeIfAbsent(type, t -> {
+      try {
+        // Must be static for java.time types; the invocation target will be null.
+        return t.getMethod("parse", CharSequence.class);
+      } catch (NoSuchMethodException ex) {
+        return null; // cached "no parser" for this type
+      } catch (SecurityException ex) {
+        throw new IllegalStateException("Cannot access parse(CharSequence) on " + t.getName(), ex);
+      }
+    });
+
+    if (parse == null) {
+      throw new IllegalStateException("No parse(CharSequence) method found on " + type.getName());
+    }
+
+    try {
+      parse.invoke(null, value); // static method => null target
+      return true;
+    } catch (IllegalAccessException ex) {
+      throw new IllegalStateException("Cannot invoke parse(CharSequence) on " + type.getName(), ex);
+    } catch (InvocationTargetException | IllegalArgumentException ex) {
+      // InvocationTargetException: Parsing failed; most commonly wraps DateTimeParseException
+      // IllegalArgumentException: Should not happen with the correct signature, but treat as not parsable
+      return false;
+    }
   }
 
 }
