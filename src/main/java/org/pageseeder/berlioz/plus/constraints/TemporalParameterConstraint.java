@@ -84,7 +84,7 @@ public final class TemporalParameterConstraint implements Constraint {
     } else {
       if (isParsableAs(value, this.type)) return ContentStatus.OK;
       xml.openElement("error");
-      xml.attribute("type", "invalid-email");
+      xml.attribute("type", "invalid-"+this.type.getSimpleName().toLowerCase());
       xml.attribute("parameter", this.name);
       xml.closeElement();
       return ContentStatus.BAD_REQUEST;
