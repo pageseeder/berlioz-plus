@@ -27,7 +27,7 @@ public final class EmailParameterConstraint implements Constraint {
    * Regular expression pattern matching an email address.
    */
   private static final Pattern EMAIL_PATTERN =
-      Pattern.compile("^[\\w\\-]([\\.\\w\\-\\`\\'])+[\\w]+@([\\w\\-]+\\.)+[A-Z]{2,4}$", Pattern.CASE_INSENSITIVE);
+      Pattern.compile("^[A-Za-z0-9]++(?:[._%+-][A-Za-z0-9]++)*+@[A-Za-z0-9]++(?:[.-][A-Za-z0-9]++)*+\\.[A-Za-z]{2,}+$");
 
   /**
    * Name of the parameter.
