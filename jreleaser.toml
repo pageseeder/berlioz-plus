@@ -9,7 +9,7 @@ encouraging and centralizing the validation of user input strings.
 tags = ["berlioz", "annotations", "java"]
 authors = ["Christophe Lauret"]
 license = "Apache-2.0"
-inceptionYear = "2020"
+inceptionYear = "2016"
 vendor = "Allette Systems"
 
 # Organization info
