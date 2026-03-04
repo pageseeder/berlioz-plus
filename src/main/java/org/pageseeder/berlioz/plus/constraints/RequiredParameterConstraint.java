@@ -13,22 +13,25 @@ import org.pageseeder.berlioz.plus.XMLPrinter;
  * A constraint requiring a parameter to be specified and not empty.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public final class RequiredParameterConstraint implements Constraint {
 
   /** Name of the parameter */
-  private final String _name;
+  private final String name;
 
   public RequiredParameterConstraint(String name) {
-    this._name = Objects.requireNonNull(name);
-    if (name.length() == 0) throw new IllegalArgumentException();
+    this.name = Objects.requireNonNull(name);
+    if (name.isEmpty()) throw new IllegalArgumentException();
   }
 
   @Override
   public ContentStatus validate(ContentRequest req, XMLPrinter xml) {
-    String value = req.getParameter(this._name);
+    String value = req.getParameter(this.name);
     if (value != null) return ContentStatus.OK;
-    return failedRequired(this._name, xml);
+    return failedRequired(this.name, xml);
   }
 
   public static ContentStatus failedRequired(String name, XMLPrinter xml) {

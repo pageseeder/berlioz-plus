@@ -15,58 +15,61 @@ import org.pageseeder.berlioz.plus.XMLPrinter;
 /**
  * A constraint requiring a user to be authenticated.
  *
- * Note: this constraint only check against the pattern if the parameter
+ * <p>Note: this constraint only checks against the pattern if the parameter
  * is specified.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public final class ParameterContraint implements Constraint {
 
   /**
    * Name of the parameter.
    */
-  private final String _name;
+  private final String name;
 
   /**
    * Whether the parameter is required
    */
-  private final boolean _required;
+  private final boolean required;
 
   /**
    * Regular expression pattern.
    */
   @Nullable
-  private final Pattern _pattern;
+  private final Pattern pattern;
 
   public ParameterContraint(String name, boolean required, String regex) {
-    this._name = Objects.requireNonNull(name);
-    if (name.length() == 0) throw new IllegalArgumentException();
-    this._required = required;
-    if (regex != null && regex.length() > 0) {
+    this.name = Objects.requireNonNull(name);
+    if (name.isEmpty()) throw new IllegalArgumentException("Parameter name cannot be empty");
+    this.required = required;
+    if (!regex.isEmpty()) {
       try {
-        this._pattern = Pattern.compile(regex);
+        this.pattern = Pattern.compile(regex);
       } catch (PatternSyntaxException ex) {
         throw new IllegalArgumentException("Invalid pattern", ex);
       }
     } else {
-      this._pattern = null;
+      this.pattern = null;
     }
   }
 
   @Override
   public ContentStatus validate(ContentRequest req, XMLPrinter xml) {
-    String value = req.getParameter(this._name);
+    String value = req.getParameter(this.name);
     if (value == null) {
-      if (this._required) return RequiredParameterConstraint.failedRequired(this._name, xml);
+      if (this.required) return RequiredParameterConstraint.failedRequired(this.name, xml);
       return ContentStatus.OK;
     } else {
-      Pattern p = this._pattern;
+      Pattern p = this.pattern;
       if (p != null) {
         if (p.matcher(value).matches()) return ContentStatus.OK;
         else {
           xml.openElement("error");
           xml.attribute("type", "invalid-parameter");
-          xml.attribute("parameter", this._name);
+          xml.attribute("parameter", this.name);
           xml.attribute("pattern", p.toString());
           xml.closeElement();
           return ContentStatus.BAD_REQUEST;

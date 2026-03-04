@@ -3,8 +3,6 @@
  */
 package org.pageseeder.berlioz.plus.constraints;
 
-import java.io.IOException;
-
 import org.pageseeder.berlioz.content.ContentRequest;
 import org.pageseeder.berlioz.content.ContentStatus;
 import org.pageseeder.berlioz.plus.XMLPrinter;
@@ -13,6 +11,9 @@ import org.pageseeder.berlioz.plus.XMLPrinter;
  * Defines a constraint on the request.
  *
  * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public interface Constraint {
 
