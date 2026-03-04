@@ -12,6 +12,11 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates a parameter that must be a valid email
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

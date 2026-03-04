@@ -13,7 +13,12 @@ import java.time.LocalDate;
 import java.time.temporal.Temporal;
 
 /**
- *  Indicates a parameter that must be castable as a temporal class.
+ * Indicates a parameter that must be castable as a temporal class.
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

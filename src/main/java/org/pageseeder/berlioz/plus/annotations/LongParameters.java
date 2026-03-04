@@ -10,7 +10,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Used for repeatable long parameters
+ * Used for repeatable long parameters.
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
