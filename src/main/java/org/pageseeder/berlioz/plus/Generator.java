@@ -37,7 +37,7 @@ public abstract class Generator<R extends ValidatedRequest> implements ContentGe
   /**
    * Construct a new instance.
    */
-  public Generator(RequestFactory<R> factory) {
+  protected Generator(RequestFactory<R> factory) {
     this.validator = RequestValidator.create(this.getClass());
     this.factory = factory;
   }
@@ -45,11 +45,10 @@ public abstract class Generator<R extends ValidatedRequest> implements ContentGe
   @Override
   public final void process(ContentRequest req, XMLWriter xml) throws BerliozException, IOException {
 
-    ContentStatus status = ContentStatus.OK;
     XMLPrinter appender = new XMLPrinter(xml);
 
     // Validate first
-    status = this.validator.validate(req, appender);
+    ContentStatus status = this.validator.validate(req, appender);
 
     // Continue if request is valid
     if (status == ContentStatus.OK) {
