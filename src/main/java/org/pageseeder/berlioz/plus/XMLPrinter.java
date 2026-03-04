@@ -15,16 +15,16 @@ import org.pageseeder.xmlwriter.XMLWriter;
 */
 public final class XMLPrinter implements XMLWriter {
 
-  private final XMLWriter _xml;
+  private final XMLWriter xml;
 
   public XMLPrinter(XMLWriter xml) {
-    this._xml = xml;
+    this.xml = xml;
   }
 
   @Override
-  public void writeXML(char[] text, int off, int len) throws IOException {
+  public void writeXML(char[] text, int off, int len) {
     try {
-      this._xml.writeXML(text, off, len);
+      this.xml.writeXML(text, off, len);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -33,7 +33,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writeText(char c) {
     try{
-      this._xml.writeText(c);
+      this.xml.writeText(c);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -42,7 +42,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writeText(@Nullable String text) {
     try{
-      this._xml.writeText(text);
+      this.xml.writeText(text);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -51,7 +51,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writeText(char[] text, int off, int len) {
     try{
-      this._xml.writeText(text, off, len);
+      this.xml.writeText(text, off, len);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -60,7 +60,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writeCDATA(@Nullable String data) {
     try{
-      this._xml.writeCDATA(data);
+      this.xml.writeCDATA(data);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -69,7 +69,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writeXML(@Nullable String text) {
     try{
-      this._xml.writeXML(text);
+      this.xml.writeXML(text);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -78,7 +78,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writeComment(@Nullable String comment) {
     try{
-      this._xml.writeComment(comment);
+      this.xml.writeComment(comment);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -87,7 +87,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void writePI(String target, String data) {
     try{
-      this._xml.writePI(target, data);
+      this.xml.writePI(target, data);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -96,7 +96,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void openElement(String name) {
     try{
-      this._xml.openElement(name);
+      this.xml.openElement(name);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -105,7 +105,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void openElement(String name, boolean hasChildren) {
     try{
-      this._xml.openElement(name, hasChildren);
+      this.xml.openElement(name, hasChildren);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -114,7 +114,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void openElement(String uri, String name, boolean hasChildren) {
     try{
-      this._xml.openElement(uri, name, hasChildren);
+      this.xml.openElement(uri, name, hasChildren);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -123,7 +123,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void closeElement() {
     try{
-      this._xml.closeElement();
+      this.xml.closeElement();
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -132,7 +132,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void element(String name, @Nullable String text) {
     try{
-      this._xml.element(name, text);
+      this.xml.element(name, text);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -141,7 +141,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void emptyElement(String element) {
     try{
-      this._xml.emptyElement(element);
+      this.xml.emptyElement(element);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -150,7 +150,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void emptyElement(String uri, String element) {
     try{
-      this._xml.emptyElement(uri, element);
+      this.xml.emptyElement(uri, element);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -159,7 +159,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void attribute(String name, String value) {
     try{
-      this._xml.attribute(name, value);
+      this.xml.attribute(name, value);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -168,7 +168,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void attribute(String name, int value) {
     try {
-      this._xml.attribute(name, value);
+      this.xml.attribute(name, value);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -177,7 +177,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void attribute(String uri, String name, String value) {
     try {
-      this._xml.attribute(uri, name, value);
+      this.xml.attribute(uri, name, value);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -186,7 +186,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void attribute(String uri, String name, int value) {
     try{
-      this._xml.attribute(uri, name, value);
+      this.xml.attribute(uri, name, value);
     } catch (IOException | IllegalStateException ex) {
       throw new OutputException(ex);
     }
@@ -194,13 +194,13 @@ public final class XMLPrinter implements XMLWriter {
 
   @Override
   public void setPrefixMapping(String uri, String prefix) {
-    this._xml.setPrefixMapping(uri, prefix);
+    this.xml.setPrefixMapping(uri, prefix);
   }
 
   @Override
   public void xmlDecl() throws IOException {
     try {
-      this._xml.xmlDecl();
+      this.xml.xmlDecl();
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -208,13 +208,13 @@ public final class XMLPrinter implements XMLWriter {
 
   @Override
   public void setIndentChars(@Nullable String spaces) {
-    this._xml.setIndentChars(spaces);
+    this.xml.setIndentChars(spaces);
   }
 
   @Override
   public void flush() throws IOException {
     try {
-      this._xml.flush();
+      this.xml.flush();
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -223,7 +223,7 @@ public final class XMLPrinter implements XMLWriter {
   @Override
   public void close() {
     try {
-      this._xml.close();
+      this.xml.close();
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
@@ -232,28 +232,59 @@ public final class XMLPrinter implements XMLWriter {
   // Additional methods
   // --------------------------------------------------------------------------
 
+  /**
+   * Writes the provided object as XML content to the underlying writer.
+   *
+   * <p>This method delegates the responsibility of generating the XML representation
+   * of the object to the {@code toXML} method of the {@link XMLWritable} instance.
+   *
+   * @param o The object implementing {@link XMLWritable} to be written as XML.
+   *          Must not be {@code null}.
+   * @throws OutputException If an {@link IOException} occurs while writing the XML content.
+   */
   public void writeXML(XMLWritable o) {
     try{
-      o.toXML(this._xml);
+      o.toXML(this.xml);
     } catch (IOException ex) {
       throw new OutputException(ex);
     }
   }
 
-  public void attribute(String name, Object value) {
+  /**
+   * Adds an attribute with the specified name and value to the XML element being constructed.
+   * If the provided value is {@code null}, no attribute will be added.
+   * In case of an {@link IOException}, an {@link OutputException} is thrown.
+   *
+   * @param name The name of the attribute to add. Must not be {@code null}.
+   * @param value The value of the attribute. If {@code null}, no action is performed.
+   *
+   * @throws OutputException If an {@link IOException} occurs while adding the attribute.
+   */
+  public void attribute(String name, @Nullable Object value) {
     if (value != null) {
       try {
-        this._xml.attribute(name, value.toString());
+        this.xml.attribute(name, value.toString());
       } catch (IOException ex) {
         throw new OutputException(ex);
       }
     }
   }
 
-  public void attribute(String uri, String name, Object value) {
+  /**
+   * Adds an attribute with the specified namespace URI, name, and value to the XML element being constructed.
+   * If the provided value is {@code null}, no attribute will be added.
+   * In case of an {@link IOException} or {@link IllegalStateException}, an {@link OutputException} is thrown.
+   *
+   * @param uri The namespace URI of the attribute to add. Must not be {@code null}.
+   * @param name The name of the attribute to add. Must not be {@code null}.
+   * @param value The value of the attribute. If {@code null}, no attribute will be added.
+   *
+   * @throws OutputException If an {@link IOException} or {@link IllegalStateException} occurs while adding the attribute.
+   */
+  public void attribute(String uri, String name, @Nullable Object value) {
     if (value != null) {
       try {
-        this._xml.attribute(uri, name, value.toString());
+        this.xml.attribute(uri, name, value.toString());
       } catch (IOException | IllegalStateException ex) {
         throw new OutputException(ex);
       }

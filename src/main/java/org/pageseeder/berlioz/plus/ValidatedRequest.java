@@ -27,13 +27,18 @@ import org.pageseeder.berlioz.servlet.HttpContentRequest;
 
 /**
  * Defines a content request which has been filtered for this application.
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public class ValidatedRequest {
 
   /**
    * The original wrapped request.
    */
-  private final ContentRequest _req;
+  private final ContentRequest req;
 
   /**
    * Create a new validated request wrapping a Berlioz content request.
@@ -41,7 +46,7 @@ public class ValidatedRequest {
    * @param req The content request to wrap.
    */
   public ValidatedRequest(ContentRequest req) {
-    this._req = req;
+    this.req = req;
   }
 
   /**
@@ -55,13 +60,13 @@ public class ValidatedRequest {
    *   (for example <code>*.html</code>);</li>
    * </ul>
    *
-   * <p>Use this method in preference to the {@link #getPathInfo()} which only works if Berlioz is
-   * mapped to prefixes.
+   * <p>Use this method in preference to the {@link ContentRequest#getBerliozPath()} which only
+   * works if Berlioz is mapped to prefixes.
    *
    * @return The path information of this request.
    */
   public final String getBerliozPath() {
-    return this._req.getBerliozPath();
+    return this.req.getBerliozPath();
   }
 
   /**
@@ -73,7 +78,7 @@ public class ValidatedRequest {
    */
   @Nullable
   public final Object getAttribute(String name) {
-    return this._req.getAttribute(name);
+    return this.req.getAttribute(name);
   }
 
   /**
@@ -83,21 +88,20 @@ public class ValidatedRequest {
    * @param o    The object for this attribute.
    */
   public final void setAttribute(String name, Object o) {
-    this._req.setAttribute(name, o);
+    this.req.setAttribute(name, o);
   }
 
   /**
-   * Returns an array containing all of the Cookie objects the client sent with this request.
+   * Returns an array containing all the Cookie objects the client sent with this request.
    *
-   * This method returns <code>null</code> if no cookies were sent.
+   * <p>This method returns <code>null</code> if no cookies were sent.
    *
    * @return An array of all the Cookies included with this request,
    *         or <code>null</code> if the request has no cookies
    */
-  @Nullable
-  public Cookie[] getCookies() {
+  public Cookie @Nullable [] getCookies() {
     // TODO We should return a list instead
-    return this._req.getCookies();
+    return this.req.getCookies();
   }
 
   /**
@@ -105,8 +109,8 @@ public class ValidatedRequest {
    *
    * @return The session of the HTTP servlet request.
    */
-  public HttpSession getSession() {
-    return this._req.getSession();
+  public @Nullable HttpSession getSession() {
+    return this.req.getSession();
   }
 
   /**
@@ -115,7 +119,7 @@ public class ValidatedRequest {
    * @return The environment of the request.
    */
   public Environment getEnvironment() {
-    return this._req.getEnvironment();
+    return this.req.getEnvironment();
   }
 
   /**
@@ -126,40 +130,47 @@ public class ValidatedRequest {
    * @return information about the location of the request.
    */
   public Location getLocation() {
-    return this._req.getLocation();
+    return this.req.getLocation();
   }
 
   /**
    * Sets the redirection URL.
    *
-   * @param code The status code to use (required).
    * @param url  The URL to redirect to.
    *
    * @throws NullPointerException if the URL is <code>null</code>.
    * @throws IllegalArgumentException if the status is not a redirect status.
    */
   public void setRedirectURL(String url) {
-    this._req.setRedirect(url, ContentStatus.TEMPORARY_REDIRECT);
+    this.req.setRedirect(url, ContentStatus.TEMPORARY_REDIRECT);
   }
 
   /**
    * Return the specified parameter value as a string.
    *
-   * @param parameter The parameter.
+   * @param name The parameter.
    *
    * @return The corresponding value or <code>null</code>
    *
    * @throws MissingParameterException if the parameter was <code>null</code>
    */
   public final String getParameter(String name) {
-    String value = this._req.getParameter(name);
+    String value = this.req.getParameter(name);
     if (value == null) throw new MissingParameterException(name);
     return value;
   }
 
+  /**
+   * Retrieves the value of a specified parameter. If the parameter value is null or empty,
+   * a fallback value is returned.
+   *
+   * @param parameter The name of the parameter to retrieve.
+   * @param fallback  The fallback value to return if the parameter is null or empty.
+   * @return The value of the parameter if present and non-empty, otherwise the fallback value.
+   */
   public final String getParameter(String parameter, String fallback) {
     String value = getOptionalParameter(parameter);
-    return (value != null && value.length() > 0)? value : fallback;
+    return (value != null && !value.isEmpty())? value : fallback;
   }
 
   /**
@@ -176,9 +187,28 @@ public class ValidatedRequest {
     return getParameter(name);
   }
 
+  /**
+   * Retrieves the value of a specified parameter. If the parameter value is null or empty,
+   * a fallback value is returned.
+   *
+   * @param parameter The parameter to retrieve.
+   * @param fallback  The fallback value to return if the parameter is null or empty.
+   * @return The value of the parameter if present and non-empty, otherwise the fallback value.
+   */
   public final String getString(RequestParameter parameter, String fallback) {
     String value = getOptionalString(parameter);
-    return (value != null && value.length() > 0)? value : fallback;
+    return (value != null && !value.isEmpty())? value : fallback;
+  }
+
+  /**
+   * Return the specified parameter value as a string.
+   *
+   * @param name The parameter.
+   *
+   * @return The corresponding value or <code>null</code>
+   */
+  public final @Nullable String getOptionalParameter(String name) {
+    return this.req.getParameter(name);
   }
 
   /**
@@ -188,21 +218,8 @@ public class ValidatedRequest {
    *
    * @return The corresponding value or <code>null</code>
    */
-  @Nullable
-  public final String getOptionalParameter(String name) {
-    return this._req.getParameter(name);
-  }
-
-  /**
-   * Return the specified parameter value as a string.
-   *
-   * @param parameter The parameter.
-   *
-   * @return The corresponding value or <code>null</code>
-   */
-  @Nullable
-  public final String getOptionalString(RequestParameter parameter) {
-    return this._req.getParameter(parameter.getName());
+  public final @Nullable String getOptionalString(RequestParameter parameter) {
+    return this.req.getParameter(parameter.getName());
   }
 
   /**
@@ -235,7 +252,7 @@ public class ValidatedRequest {
    */
   public final long getLong(RequestParameter parameter, long fallback) {
     String value = getOptionalString(parameter);
-    if (value == null || value.length() == 0) return fallback;
+    if (value == null || value.isEmpty()) return fallback;
     try {
       return Long.parseLong(value);
     } catch (NumberFormatException ex) {
@@ -280,7 +297,7 @@ public class ValidatedRequest {
     LocalDate date = fallback;
     try {
       String text = getOptionalString(parameter);
-      if (text != null && text.length() > 0) {
+      if (text != null && !text.isEmpty()) {
         date = LocalDate.parse(text);
       }
     } catch (DateTimeParseException ex) {
@@ -321,7 +338,7 @@ public class ValidatedRequest {
   public final LocalDate getOptionalLocalDate(RequestParameter parameter) {
     try {
       String date = getOptionalString(parameter);
-      if (date != null && date.length() > 0)
+      if (date != null && !date.isEmpty())
        return LocalDate.parse(date);
     } catch (DateTimeParseException ex) {
       throw new InvalidParameterException(parameter, ex);
@@ -361,7 +378,7 @@ public class ValidatedRequest {
   public final LocalDateTime getOptionalLocalDateTime(RequestParameter parameter) {
     try {
       String datetime = getOptionalString(parameter);
-      if (datetime != null && datetime.length() > 0)
+      if (datetime != null && !datetime.isEmpty())
        return LocalDateTime.parse(datetime);
     } catch (DateTimeParseException ex) {
       throw new InvalidParameterException(parameter, ex);
@@ -372,13 +389,13 @@ public class ValidatedRequest {
   /**
    * Return a simple parameter map for this validated request.
    *
-   * @return
+   * @return a simple parameter map for this validated request.
    */
   public Map<String, String> getParameterMap() {
-    List<String> names = Collections.list(this._req.getParameterNames());
+    List<String> names = Collections.list(this.req.getParameterNames());
     Map<String, String> parameters = new HashMap<>(names.size());
     for (String name : names) {
-      String value = this._req.getParameter(name);
+      String value = this.req.getParameter(name);
       if (value != null) {
         parameters.put(name, value);
       }
@@ -387,7 +404,7 @@ public class ValidatedRequest {
   }
 
   protected ContentRequest request() {
-    return this._req;
+    return this.req;
   }
 
   // HTTP Objects
@@ -397,14 +414,14 @@ public class ValidatedRequest {
    * @return the original HTTP request
    */
   public final HttpServletRequest httpRequest() {
-    return ((HttpContentRequest)this._req).getHttpRequest();
+    return ((HttpContentRequest)this.req).getHttpRequest();
   }
 
   /**
    * @return the original HTTP response
    */
   public final HttpServletResponse httpResponse() {
-    return ((HttpContentRequest)this._req).getHttpResponse();
+    return ((HttpContentRequest)this.req).getHttpResponse();
   }
 
   /**
@@ -413,7 +430,7 @@ public class ValidatedRequest {
    * @param cookie The cookie to add.
    */
   public final void addCookie(Cookie cookie) {
-    HttpServletResponse res = ((HttpContentRequest)this._req).getHttpResponse();
+    HttpServletResponse res = ((HttpContentRequest)this.req).getHttpResponse();
     res.addCookie(cookie);
   }
 

@@ -3,10 +3,8 @@
  */
 package org.pageseeder.berlioz.plus;
 
-import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
 
@@ -30,14 +28,17 @@ import org.slf4j.LoggerFactory;
  * </ul>
  *
  * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public final class RequestValidator {
 
   /** Logger for the request validator */
-  private final static Logger LOGGER = LoggerFactory.getLogger(RequestValidator.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RequestValidator.class);
 
   /** List of constraints to obey */
-  private final List<Constraint> _constraints = new ArrayList<>(4);
+  private final List<Constraint> constraints = new ArrayList<>(4);
 
   /**
    * Creates a new validator.
@@ -46,12 +47,12 @@ public final class RequestValidator {
   }
 
   /**
-   * Creates a new validator from single constraint.
+   * Creates a new validator from a single constraint.
    *
    * @param constraint a constraint to obey for a request to be valid.
    */
   public RequestValidator(Constraint constraint) {
-    this._constraints.add(constraint);
+    this.constraints.add(constraint);
   }
 
   /**
@@ -60,7 +61,7 @@ public final class RequestValidator {
    * @param constraints a list of constraints to obey for a request to be valid.
    */
   public RequestValidator(List<Constraint> constraints) {
-    this._constraints.addAll(constraints);
+    this.constraints.addAll(constraints);
   }
 
   /**
@@ -104,11 +105,9 @@ public final class RequestValidator {
    * @param xml The XML writer to use should an error be reported.
    *
    * @return the content status of the request.
-   *
-   * @throws IOException If an error occurred while writing the XML.
    */
   public ContentStatus validate(ContentRequest req, XMLPrinter xml) {
-    for (Constraint c : this._constraints) {
+    for (Constraint c : this.constraints) {
       ContentStatus status = c.validate(req, xml);
       if (status != ContentStatus.OK) return status;
     }
@@ -127,9 +126,7 @@ public final class RequestValidator {
    */
   public RequestValidator requires(String... required) {
     for (String name : required) {
-      if (name != null) {
-        this._constraints.add(new RequiredParameterConstraint(name));
-      }
+      this.constraints.add(new RequiredParameterConstraint(name));
     }
     return this;
   }
@@ -143,7 +140,7 @@ public final class RequestValidator {
    */
   public RequestValidator requires(RequestParameter... required) {
     for (RequestParameter name : required) {
-      this._constraints.add(new RequiredParameterConstraint(name.getName()));
+      this.constraints.add(new RequiredParameterConstraint(name.getName()));
     }
     return this;
   }
@@ -154,7 +151,7 @@ public final class RequestValidator {
    * @return This validator instance.
    */
   public RequestValidator matches(String name, String regex) {
-    this._constraints.add(new ParameterConstraint(name, false, regex));
+    this.constraints.add(new ParameterConstraint(name, false, regex));
     return this;
   }
 
@@ -164,7 +161,7 @@ public final class RequestValidator {
    * @return This validator instance.
    */
   public RequestValidator isEmail(String name) {
-    this._constraints.add(new EmailParameterConstraint(name, false));
+    this.constraints.add(new EmailParameterConstraint(name, false));
     return this;
   }
 
@@ -174,31 +171,44 @@ public final class RequestValidator {
    * @return A new request validator instance.
    */
   public RequestValidator with(Class<? extends Constraint> kindOfConstraint) {
-    List<Constraint> constraints = new ArrayList<>(this._constraints);
+    List<Constraint> constraintList = new ArrayList<>(this.constraints);
     Constraint constraint;
     try {
       constraint = kindOfConstraint.newInstance();
-      constraints.add(constraint);
+      constraintList.add(constraint);
     } catch (InstantiationException | IllegalAccessException ex) {
       throw new IllegalArgumentException(ex);
     }
-    return new RequestValidator(constraints);
+    return new RequestValidator(constraintList);
   }
 
+  /**
+   * Updates the validator with an annotation, adding an optional constraint if applicable.
+   *
+   * @param annotation The annotation to be processed and used for generating a constraint.
+   * @return The updated request validator instance.
+   */
   public RequestValidator update(Annotation annotation) {
     addOptionalConstraint(annotation);
     return this;
   }
 
+  /**
+   * Adds an optional constraint to the validator based on the provided annotation.
+   *
+   * <p>This method uses all available {@code AnnotationProcessor} implementations
+   * to process the annotation. If a processor accepts the annotation, it generates
+   * a corresponding constraint and adds it to the validator's internal list of constraints.
+   *
+   * @param annotation The annotation to be processed and used for generating a constraint.
+   */
   private void addOptionalConstraint(Annotation annotation) {
     ServiceLoader<AnnotationProcessor> loader = ServiceLoader.load(AnnotationProcessor.class);
-    Iterator<AnnotationProcessor> it = loader.iterator();
-    while (it.hasNext()) {
-      AnnotationProcessor processor = it.next();
-      LOGGER.debug(processor.getClass()+"/"+annotation.toString()+"->"+processor.accepts(annotation));
+    for (AnnotationProcessor processor : loader) {
+      LOGGER.debug("{}/{}->{}", processor.getClass(), annotation, processor.accepts(annotation));
       if (processor.accepts(annotation)) {
         Constraint constraint = processor.getConstraint(annotation);
-        this._constraints.add(constraint);
+        this.constraints.add(constraint);
       }
     }
   }

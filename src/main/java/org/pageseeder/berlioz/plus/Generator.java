@@ -19,22 +19,27 @@ import org.slf4j.LoggerFactory;
  * Defines the generator from the content generator
  *
  * @param <R> A validated request
+ *
+ * @author Christophe Lauret
+ *
+ * @since 0.5.0
+ * @version 0.6.0
  */
 public abstract class Generator<R extends ValidatedRequest> implements ContentGenerator {
 
   /**
    * Validator for this generator (instantiated from annotations)
    */
-  private final RequestValidator _validator;
+  private final RequestValidator validator;
 
-  private final RequestFactory<R> _factory;
+  private final RequestFactory<R> factory;
 
   /**
    * Construct a new instance.
    */
   public Generator(RequestFactory<R> factory) {
-    this._validator = RequestValidator.create(this.getClass());
-    this._factory = factory;
+    this.validator = RequestValidator.create(this.getClass());
+    this.factory = factory;
   }
 
   @Override
@@ -44,12 +49,12 @@ public abstract class Generator<R extends ValidatedRequest> implements ContentGe
     XMLPrinter appender = new XMLPrinter(xml);
 
     // Validate first
-    status = this._validator.validate(req, appender);
+    status = this.validator.validate(req, appender);
 
     // Continue if request is valid
     if (status == ContentStatus.OK) {
       try {
-        R r = this._factory.getRequest(req);
+        R r = this.factory.getRequest(req);
         status = generate(r, new XMLPrinter(xml));
       } catch (RequestException ex) {
         Logger logger = LoggerFactory.getLogger(this.getClass());
