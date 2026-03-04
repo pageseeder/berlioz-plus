@@ -34,9 +34,9 @@ repositories {
 
 dependencies {
   api("org.pageseeder.berlioz:pso-berlioz:0.11.0")
-  api("org.pageseeder.xmlwriter:pso-xmlwriter:1.0.2")
+  api("org.pageseeder.xmlwriter:pso-xmlwriter:1.0.4")
 
-  implementation("org.slf4j:slf4j-api:1.7.12")
+  implementation("org.slf4j:slf4j-api:2.0.17")
 
   compileOnly("javax.servlet:javax.servlet-api:3.1.0") {
     because("This is provided by the Servlet container")
@@ -50,8 +50,8 @@ dependencies {
     because("This used for Null safety and better interop with Kotlin")
   }
 
-  testImplementation("junit:junit:4.12")
-  testImplementation("org.slf4j:slf4j-simple:1.7.12")
+  testImplementation("junit:junit:4.13.1")
+  testImplementation("org.slf4j:slf4j-simple:2.0.17")
 }
 
 tasks.wrapper {
