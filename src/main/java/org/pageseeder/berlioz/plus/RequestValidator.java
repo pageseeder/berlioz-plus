@@ -14,7 +14,7 @@ import org.pageseeder.berlioz.content.ContentRequest;
 import org.pageseeder.berlioz.content.ContentStatus;
 import org.pageseeder.berlioz.plus.constraints.Constraint;
 import org.pageseeder.berlioz.plus.constraints.EmailParameterConstraint;
-import org.pageseeder.berlioz.plus.constraints.ParameterContraint;
+import org.pageseeder.berlioz.plus.constraints.ParameterConstraint;
 import org.pageseeder.berlioz.plus.constraints.RequiredParameterConstraint;
 import org.pageseeder.berlioz.plus.spi.AnnotationProcessor;
 import org.slf4j.Logger;
@@ -154,7 +154,7 @@ public final class RequestValidator {
    * @return This validator instance.
    */
   public RequestValidator matches(String name, String regex) {
-    this._constraints.add(new ParameterContraint(name, false, regex));
+    this._constraints.add(new ParameterConstraint(name, false, regex));
     return this;
   }
 

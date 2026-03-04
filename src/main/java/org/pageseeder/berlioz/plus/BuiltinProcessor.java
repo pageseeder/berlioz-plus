@@ -10,7 +10,7 @@ import org.pageseeder.berlioz.plus.annotations.TemporalParameter;
 import org.pageseeder.berlioz.plus.constraints.Constraint;
 import org.pageseeder.berlioz.plus.constraints.EmailParameterConstraint;
 import org.pageseeder.berlioz.plus.constraints.LongParameterConstraint;
-import org.pageseeder.berlioz.plus.constraints.ParameterContraint;
+import org.pageseeder.berlioz.plus.constraints.ParameterConstraint;
 import org.pageseeder.berlioz.plus.constraints.TemporalParameterConstraint;
 import org.pageseeder.berlioz.plus.spi.AnnotationProcessor;
 
@@ -36,7 +36,7 @@ public final class BuiltinProcessor implements AnnotationProcessor {
       String name = parameter.value();
       boolean required = parameter.required();
       String regex = parameter.matches();
-      return new ParameterContraint(name, required, regex);
+      return new ParameterConstraint(name, required, regex);
     } else if (annotation instanceof LongParameter) {
       LongParameter parameter = (LongParameter)annotation;
       String name = parameter.value();

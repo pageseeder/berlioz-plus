@@ -23,7 +23,7 @@ import org.pageseeder.berlioz.plus.XMLPrinter;
  * @since 0.5.0
  * @version 0.6.0
  */
-public final class ParameterContraint implements Constraint {
+public final class ParameterConstraint implements Constraint {
 
   /**
    * Name of the parameter.
@@ -41,7 +41,7 @@ public final class ParameterContraint implements Constraint {
   @Nullable
   private final Pattern pattern;
 
-  public ParameterContraint(String name, boolean required, String regex) {
+  public ParameterConstraint(String name, boolean required, String regex) {
     this.name = Objects.requireNonNull(name);
     if (name.isEmpty()) throw new IllegalArgumentException("Parameter name cannot be empty");
     this.required = required;
