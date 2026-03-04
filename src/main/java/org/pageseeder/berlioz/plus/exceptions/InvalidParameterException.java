@@ -22,11 +22,11 @@ public final class InvalidParameterException extends RequestException {
   /**
    * The name of the invalid parameter.
    */
-  private final String _parameter;
+  private final String parameter;
 
   public InvalidParameterException(String parameter) {
     super(ContentStatus.BAD_REQUEST, "Invalid parameter '"+parameter+"'");
-    this._parameter = parameter;
+    this.parameter = parameter;
   }
 
   public InvalidParameterException(RequestParameter parameter) {
@@ -35,7 +35,7 @@ public final class InvalidParameterException extends RequestException {
 
   public InvalidParameterException(String parameter, Throwable cause) {
     super(ContentStatus.BAD_REQUEST, "Invalid parameter '"+parameter+"'", cause);
-    this._parameter = parameter;
+    this.parameter = parameter;
   }
 
   public InvalidParameterException(RequestParameter parameter, Throwable cause) {
@@ -43,6 +43,6 @@ public final class InvalidParameterException extends RequestException {
   }
 
   public String parameter() {
-    return this._parameter;
+    return this.parameter;
   }
 }
